@@ -20,6 +20,8 @@ import ConcatComponent from "./components/ConcatComponent";
 import SplitComponent from "./components/SplitComponent";
 import AddComponent from "./components/AddComponent";
 import RecursionPlugin from "./plugins/RecursionPlugin";
+import Base64Decode from "./components/Base64Decode";
+import Base64Encode from "./components/Base64Encode";
 
 (async () => {
     var container = document.querySelector('#rete');
@@ -28,7 +30,9 @@ import RecursionPlugin from "./plugins/RecursionPlugin";
         new OutputComponent(),
         new ConcatComponent(),
         new AddComponent(),
-        new SplitComponent(),
+        new SplitComponent(),,
+        new Base64Encode(),
+        new Base64Decode(),
     ];
 
     var editor = new Rete.NodeEditor('demo@0.1.0', container);
@@ -37,8 +41,7 @@ import RecursionPlugin from "./plugins/RecursionPlugin";
     editor.use(ContextMenuPlugin);
     editor.use(AreaPlugin);
     editor.use(ModulePlugin);
-    //editor.use(AlightRenderPlugin);
-
+    
     var engine = new Rete.Engine('demo@0.1.0');
 
     components.map(c => {

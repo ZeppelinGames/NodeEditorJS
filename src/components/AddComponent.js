@@ -32,7 +32,6 @@ class AddComponent extends Rete.Component {
 
         this.editor.nodes.find(n => n.id == node.id).controls.get('Out').setValue(sum);
         outputs['O'] = sum;
-        console.log(sum);
     }
 }
 
