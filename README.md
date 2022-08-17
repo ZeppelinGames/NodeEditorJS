@@ -31,4 +31,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Creating new components  
 - Create new `.js` file under `/src/components`  
-- Import component to `main.js` and add a new instance of component to components array
+- Import component to `main.js` and add a new instance of component to components array  
+
+
+Running Node v.16.16.0, NPM v8.17.0
