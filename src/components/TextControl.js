@@ -1,8 +1,8 @@
 import Rete from 'rete';
 
 var TextControlTemplate = {
-    props: ['readonly', 'emitter', 'ikey', 'getData', 'putData'],
-    template: '<input type="text" :readonly="readonly" :value="value" @input="change($event)" @dblclick.stop="" @pointerdown.stop="" @pointermove.stop=""/>',
+    props: ['readonly', 'emitter', 'ikey', 'label','getData', 'putData'],
+    template: '<div>{{label}}<input type="text" :readonly="readonly" :value="value" @input="change($event)" @dblclick.stop="" @pointerdown.stop="" @pointermove.stop=""/></div>',
     data() {
         return {
             value: "",
@@ -25,14 +25,15 @@ var TextControlTemplate = {
 }
 
 class TextControl extends Rete.Control {
-    constructor(emitter, key, readonly) {
+    constructor(emitter, key, readonly,label) {
         super(key);
 
         this.component = TextControlTemplate;
         this.props = {
             emitter,
             ikey: key,
-            readonly
+            readonly,
+            label
         }
     }
 
