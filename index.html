@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Cyberweb</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <script type="module">
+        import NodeManager from "./NodeManager.js";
+        import ContextMenu from "./ContextMenu.js";
+
+        const nodeManager = new NodeManager();
+        const contextMenu = new ContextMenu();
+
+        const newNode = nodeManager.CreateNode("Test");
+        newNode.addOutput();
+        newNode.addInput();
+    </script>
+
+    <!-- <div class="node">
+        <div class="nodeTitle">Input</div>
+
+        <div class="nodeBody">
+            <div class="socket">
+                <div>Output</div>
+                <div>O</div>
+            </div>
+            <div class="nodeTextInput">
+                <textarea type="text"></textarea>
+            </div>
+        </div>
+    </div> -->
+
+</body>
+
+</html>

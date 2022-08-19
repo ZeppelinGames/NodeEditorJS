@@ -1,0 +1,110 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+
+    overflow: hidden;
+
+    background-color: #272727;
+
+    font-family: sans-serif;
+
+    background-image: linear-gradient(to right, #363636 1px, transparent 1px), linear-gradient(to bottom, #363636 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.node {
+    user-select: none;
+
+    position: absolute;
+    background-color: #111111BB;
+    color: white;
+
+    border-radius: 16px;
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 200px;
+    width: max-content;
+
+    min-height: 100px;
+}
+
+.nodeBody {
+    padding: 16px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.node:hover {
+    border: #FFFFFF 1px solid;
+}
+
+.nodeTitle {
+    background-color: #000000AA;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+
+    padding: 16px;
+    text-align: center;
+    font-weight: bolder;
+    font-size: large;
+}
+
+.socketBody {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.socketBody.input {
+    flex-direction: row-reverse;
+}
+
+.socket {
+    width: 12px;
+    height: 12px;
+
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+.socket:hover {
+    background-color: white;
+}
+
+.contextMenu {
+    position: absolute;
+    flex-direction: column;
+
+    min-width: 100px;
+
+    text-align: center;
+
+    background-color: #000000AA;
+    border: 1px solid #FFFFFF;
+    border-radius: 8px;
+
+    padding: 4px;
+    gap: 0.5em;
+}
+
+.contextMenuItem {
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 8px;
+    border: 1px solid #FFFFFF;
+    background-color: #000000AA;
+    color: white;
+    display: block;
+}
+
+.contextMenuItem:hover {
+    background-color: white;
+    color: black;
+}
