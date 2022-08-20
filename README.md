@@ -43,5 +43,6 @@ const events = [
 ```  
 
 ## Roadmap  
-- Visible connections
+- ~~Visible connections~~
+- Remove/edit connections
 - Iterative nodes

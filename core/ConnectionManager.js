@@ -5,7 +5,21 @@ class ConnectionManager {
         this.currentSelectedSocket = null;
 
         //Create canvas to draw connections onto
+        this.canvas = document.createElement("canvas");
+        this.canvas.style.zIndex = 500;
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
 
+        this.c2d = this.canvas.getContext('2d');
+        this.c2d.strokeStyle = 'white';
+        this.c2d.lineWidth = 6;
+
+        document.body.appendChild(this.canvas);
+
+        window.addEventListener('resize', () => {
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
+        });
         document.addEventListener('mousedown', this.handleNodeSelection);
     }
 
@@ -37,6 +51,22 @@ class ConnectionManager {
 
                     connTo.updateConnections();
                     this.currentSelectedSocket.updateConnections();
+
+                    const out = connTo.isInput ? this.currentSelectedSocket : connTo;
+                    const inp = connTo.isInput ? connTo : this.currentSelectedSocket;
+
+                    const ip = out.socketHandle.getBoundingClientRect();
+                    const op = inp.socketHandle.getBoundingClientRect();
+
+                    const inPos = { x: (ip.x + (ip.width / 2)), y: (ip.y + (ip.height / 2)) };
+                    const outPos = { x: (op.x + (op.width / 2)), y: (op.y + (op.height / 2)) };
+
+                    const xDist = inPos.x - outPos.x;
+
+                    this.c2d.beginPath();
+                    this.c2d.moveTo(outPos.x, outPos.y);
+                    this.c2d.bezierCurveTo(outPos.x + (xDist / 2), outPos.y, inPos.x - (xDist / 2), inPos.y, inPos.x, inPos.y,);
+                    this.c2d.stroke();
                 } else {
                     console.log("Cannot connect same sockets");
                 }

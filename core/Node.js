@@ -9,6 +9,8 @@ class Node {
         this.inputs = [];
         this.outputs = [];
 
+        this.position = { x: 0, y: 0 };
+
         // <div class="node">
         //     <div class="nodeTitle">Input</div>
         //
@@ -77,6 +79,9 @@ class Node {
     }
 
     setPosition(x, y) {
+        this.position.x = x;
+        this.position.y = y;
+
         this.handle.style.left = x + "px";
         this.handle.style.top = y + "px";
     }

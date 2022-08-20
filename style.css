@@ -17,6 +17,10 @@ body {
     background-size: 20px 20px;
 }
 
+canvas {
+    z-index: 500;
+}
+
 .node {
     user-select: none;
 
@@ -58,7 +62,7 @@ body {
     font-size: large;
 }
 
-.nodeTextField > * {
+.nodeTextField>* {
     min-width: var(--min-node-width);
 }
 
