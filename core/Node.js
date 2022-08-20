@@ -75,6 +75,11 @@ class Node {
     //override 
     update() {
     }
+
+    setPosition(x, y) {
+        this.handle.style.left = x + "px";
+        this.handle.style.top = y + "px";
+    }
 }
 
 export default Node;

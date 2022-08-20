@@ -16,22 +16,10 @@ class ContextMenu {
 
         //Bind events
         const events = [
-            new ContextMenuItem("Input", () => {
-                const newNode = new InputNode();
-                this.nodeManager.registerNode(newNode);
-            }),
-            new ContextMenuItem("Output", () => {
-                const newNode = new OutputNode();
-                this.nodeManager.registerNode(newNode);
-            }),
-            new ContextMenuItem("Concatenate", () => {
-                const newNode = new ConcatNode();
-                this.nodeManager.registerNode(newNode);
-            }),
-            new ContextMenuItem("Add", () => {
-                const newNode = new AddNode();
-                this.nodeManager.registerNode(newNode);
-            })
+            new ContextMenuItem("Input", (e) => { this.createNewNode(e, new InputNode()) }),
+            new ContextMenuItem("Output", (e) => { this.createNewNode(e, new OutputNode()) }),
+            new ContextMenuItem("Concatenate", (e) => { this.createNewNode(e, new ConcatNode()) }),
+            new ContextMenuItem("Add", (e) => { this.createNewNode(e, new AddNode()) })
         ];
 
         //Create DOM element
@@ -42,7 +30,10 @@ class ContextMenu {
         events.forEach(e => {
             const eventElementHandler = document.createElement("a");
             eventElementHandler.classList.add("contextMenuItem");
-            eventElementHandler.onclick = e.event;
+            eventElementHandler.onclick = (i) => {
+                e.event(i);
+                this.updateContextMenu();
+            };
 
             const eventText = document.createElement("div");
             eventText.classList.add("contextMenuItemName");
@@ -61,6 +52,11 @@ class ContextMenu {
         this.updateContextMenu();
 
         document.addEventListener('contextmenu', e => this.updateContextMenu(e));
+    }
+
+    createNewNode(e, newNode) {
+        this.nodeManager.registerNode(newNode);
+        newNode.setPosition(e.clientX, e.clientY);
     }
 
     updateContextMenu(e) {

@@ -38,9 +38,6 @@ export default AddNode;
 *Defining event in ContextMenu*
 ```js
 const events = [
-    new ContextMenuItem("Add", () => {
-        const newNode = new AddNode();
-        this.nodeManager.registerNode(newNode);
-    })
+    new ContextMenuItem("Add", (e) => { this.createNewNode(e, new AddNode()) })
 ]
 ```
