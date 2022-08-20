@@ -4,6 +4,8 @@ class ConnectionManager {
 
         this.currentSelectedSocket = null;
 
+        //Create canvas to draw connections onto
+
         document.addEventListener('mousedown', this.handleNodeSelection);
     }
 

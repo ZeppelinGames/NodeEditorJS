@@ -40,4 +40,8 @@ export default AddNode;
 const events = [
     new ContextMenuItem("Add", (e) => { this.createNewNode(e, new AddNode()) })
 ]
-```
+```  
+
+## Roadmap  
+- Visible connections
+- Iterative nodes
