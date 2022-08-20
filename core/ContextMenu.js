@@ -1,3 +1,6 @@
+import InputNode from "../components/InputNode.js";
+import OutputNode from "../components/OutputNode.js";
+
 class ContextMenuItem {
     constructor(displayName, event) {
         this.displayName = displayName;
@@ -6,11 +9,19 @@ class ContextMenuItem {
 }
 
 class ContextMenu {
-    constructor() {
+    constructor(nodeManager) {
+        this.nodeManager = nodeManager;
+
         //Bind events
         const events = [
-            new ContextMenuItem("Add Node", () => { alert("created node") }),
-            new ContextMenuItem("Decode", () => { console.log("Decoding") }),
+            new ContextMenuItem("Input", () => {
+                const newNode = new InputNode();
+                this.nodeManager.registerNode(newNode);
+            }),
+            new ContextMenuItem("Output", () => {
+                const newNode = new OutputNode();
+                this.nodeManager.registerNode(newNode);
+            }),
         ];
 
         //Create DOM element
@@ -35,7 +46,7 @@ class ContextMenu {
         document.body.appendChild(contextDOM);
 
         this.handle = contextDOM;
-        console.log(this.handle);
+
         this.isVisible = false;
         this.updateContextMenu();
 

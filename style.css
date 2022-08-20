@@ -1,3 +1,7 @@
+:root {
+    --min-node-width: 200px;
+}
+
 html,
 body {
     margin: 0;
@@ -25,7 +29,7 @@ body {
     display: flex;
     flex-direction: column;
 
-    min-width: 200px;
+    min-width: var(--min-node-width);
     width: max-content;
 
     min-height: 100px;
@@ -52,6 +56,10 @@ body {
     text-align: center;
     font-weight: bolder;
     font-size: large;
+}
+
+.nodeTextField > * {
+    min-width: var(--min-node-width);
 }
 
 .socketBody {

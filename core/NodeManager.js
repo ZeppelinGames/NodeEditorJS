@@ -1,19 +1,31 @@
-import Node from "./Node.js";
+import ConnectionManager from "./ConnectionManager.js";
 
 class NodeManager {
     constructor() {
         this.nodes = [];
+
+        this.connectionManager = new ConnectionManager(this);
 
         document.addEventListener('mousedown', this.handleNodeSelection);
         document.addEventListener('mousemove', this.handleNodeMovement);
 
         document.addEventListener('mouseup', this.handleNodeRelease);
 
+        document.addEventListener('updateNodes', () => {
+            this.updateNodes();
+        });
+
         this.currentSelectedNode = null;
     }
 
     handleNodeSelection(e) {
         const seletedElement = document.elementFromPoint(e.clientX, e.clientY);
+
+        //Manage nodes
+        if (!seletedElement.classList.contains("nodeTitle")) {
+            return;
+        }
+
         let getNode = seletedElement.classList.contains("node") ? seletedElement : seletedElement.closest(".node");
 
         if (getNode === undefined || getNode === null) {
@@ -42,12 +54,8 @@ class NodeManager {
         })
     }
 
-    CreateNode(name) {
-        //Create node element
-        const node = new Node(name);
+    registerNode(node) {
         this.nodes.push(node);
-
-        return node;
     }
 }
 

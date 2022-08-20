@@ -1,9 +1,11 @@
 import Socket from "./Socket.js"
+import TextField from "./TextField.js";
 
 class Node {
     constructor(name) {
         //Node elements
         this.nodeName = name ? name : "Node";
+        this.nodeData = [];
         this.inputs = [];
         this.outputs = [];
 
@@ -45,22 +47,32 @@ class Node {
         this.nodeBody = nodeBody;
     }
 
-    addInput() {
-        const newSocket = new Socket(true);
-        this.nodeBody.appendChild(newSocket);
-        this.inputs.push(newSocket);
+    addInput(key) {
+        const newSocket = new Socket(this, key, true);
+        this.nodeBody.appendChild(newSocket.handle);
+        this.inputs[key] = newSocket;
+
+        return newSocket;
     }
 
-    addOutput() {
-        //  <div class="socket">
-        //      <div>Output</div>
-        //      <div>O</div>
-        //  </div>
-        const newSocket = new Socket(false);
-        this.nodeBody.appendChild(newSocket);
-        this.outputs.push(newSocket);
+    addOutput(key) {
+        const newSocket = new Socket(this, key, false);
+        this.nodeBody.appendChild(newSocket.handle);
+        this.outputs[key] = newSocket;
+
+        console.log(this.outputs);
+
+        return newSocket;
     }
 
+    addTextField(key, socket, isMultiline = false) {
+        const textField = new TextField(key, socket, isMultiline);
+        this.nodeBody.appendChild(textField.handle);
+
+        this.nodeData[key] = textField;
+    }
+
+    //override 
     update() {
 
     }

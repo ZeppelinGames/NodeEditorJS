@@ -1,11 +1,15 @@
 class Socket {
-    constructor(isInput) {
+    constructor(node, key, isInput) {
         //  <div class="socket">
         //      <div>Output</div>
         //      <div>O</div>
         //  </div>
+        this.node = node;
+        this.key = key;
         this.connections = [];
         this.isInput = isInput;
+
+        this.value = "";
 
         //Create DOM element
         const socket = document.createElement("div");
@@ -24,7 +28,7 @@ class Socket {
         this.handle = socket;
         this.socketHandle = socketHandle;
 
-        return this.handle;
+        return this;
     }
 }
 
