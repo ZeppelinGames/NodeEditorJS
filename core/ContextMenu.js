@@ -1,6 +1,7 @@
 import InputNode from "../components/InputNode.js";
 import OutputNode from "../components/OutputNode.js";
 import ConcatNode from "../components/ConcatNode.js";
+import AddNode from "../components/AddNode.js";
 
 class ContextMenuItem {
     constructor(displayName, event) {
@@ -25,6 +26,10 @@ class ContextMenu {
             }),
             new ContextMenuItem("Concatenate", () => {
                 const newNode = new ConcatNode();
+                this.nodeManager.registerNode(newNode);
+            }),
+            new ContextMenuItem("Add", () => {
+                const newNode = new AddNode();
                 this.nodeManager.registerNode(newNode);
             })
         ];

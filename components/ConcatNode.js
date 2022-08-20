@@ -10,7 +10,7 @@ class ConcatNode extends Node {
     }
 
     update() {
-        this.outputs["Output"].value = Number(this.inputs["A"].value) + Number(this.inputs["B"].value);
+        this.outputs["Output"].value = this.inputs["A"].value + this.inputs["B"].value;
     }
 }
 
