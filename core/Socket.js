@@ -30,6 +30,20 @@ class Socket {
 
         return this;
     }
+
+    updateConnections() {
+        for (let i = 0; i < this.connections.length; i++) {
+            if (this.connections[i].isInput) {
+                this.connections[i].value = this.value;
+                this.connections[i].node.update();
+
+                const linkedOuts = Object.values(this.connections[i].node.outputs);
+                for (let j = 0; j < linkedOuts.length; j++) {
+                    linkedOuts[j].updateConnections();
+                }
+            }
+        }
+    }
 }
 
 export default Socket;

@@ -11,10 +11,6 @@ class NodeManager {
 
         document.addEventListener('mouseup', this.handleNodeRelease);
 
-        document.addEventListener('updateNodes', () => {
-            this.updateNodes();
-        });
-
         this.currentSelectedNode = null;
     }
 
@@ -46,12 +42,6 @@ class NodeManager {
 
     handleNodeRelease(e) {
         this.currentSelectedNode = null;
-    }
-
-    updateNodes() {
-        this.nodes.forEach((n) => {
-            n?.update();
-        })
     }
 
     registerNode(node) {

@@ -8,6 +8,7 @@ class OutputNode extends Node {
     }
 
     update() {
+        console.log("Outputted");
         this.nodeData["Output"].input.value = this.inputs["Input"].value;
     }
 }

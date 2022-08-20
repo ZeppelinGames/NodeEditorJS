@@ -5,7 +5,6 @@ class ConnectionManager {
         this.currentSelectedSocket = null;
 
         document.addEventListener('mousedown', this.handleNodeSelection);
-        document.addEventListener('updateNodes', this.connectionUpdate);
     }
 
     connectionUpdate = (e) => {
@@ -27,14 +26,15 @@ class ConnectionManager {
         //Connect sockets
         if (seletedElement.classList.contains("socket")) {
             if (this.currentSelectedSocket) {
-                console.log("Connecting to " + seletedElement);
-
                 const connTo = this.getSocketFromElement(seletedElement);
                 if (this.currentSelectedSocket.isInput !== connTo.isInput) {
                     console.log("Valid conenction");
 
                     this.currentSelectedSocket.connections.push(connTo);
                     connTo.connections.push(this.currentSelectedSocket);
+
+                    connTo.updateConnections();
+                    this.currentSelectedSocket.updateConnections();
                 } else {
                     console.log("Cannot connect same sockets");
                 }
@@ -42,11 +42,9 @@ class ConnectionManager {
                 this.currentSelectedSocket = null;
             } else {
                 this.currentSelectedSocket = this.getSocketFromElement(seletedElement);
-                console.log("Started connection");
             }
         } else {
             this.currentSelectedSocket = null;
-            console.log("Deselected");
         }
     }
 

@@ -74,7 +74,6 @@ class Node {
 
     //override 
     update() {
-
     }
 }
 

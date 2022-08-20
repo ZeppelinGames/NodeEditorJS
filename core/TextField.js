@@ -21,16 +21,11 @@ class TextField {
                 this.value = e.target.value;
 
                 if (socket) {
-                    console.log("updated socket value to " + this.value);
                     socket.value = this.value;
+                    socket.updateConnections();
                 }
-
-                // Update nodes. update this to recurse over connections attatched to node. Move listener to node
-                const event = new Event('updateNodes');
-                document.dispatchEvent(event);
             });
         }
-        //inputField.attachEvent('onpropertychange', e => { dispatchEvent("updateNodes") });
     }
 }
 
