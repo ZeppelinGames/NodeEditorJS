@@ -13,6 +13,7 @@ class NodeManager {
 
         this.currentSelectedNode = null;
         this.dragOffset = { x: 0, y: 0 };
+        this.globalOffset = { x: 0, y: 0 };
     }
 
     handleNodeSelection(e) {
