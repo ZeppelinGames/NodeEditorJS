@@ -6,12 +6,13 @@ class NodeManager {
 
         this.connectionManager = new ConnectionManager(this);
 
-        document.addEventListener('mousedown', this.handleNodeSelection);
-        document.addEventListener('mousemove', this.handleNodeMovement);
+        document.addEventListener('mousedown', (e) => { this.handleNodeSelection(e); });
+        document.addEventListener('mousemove', (e) => { this.handleNodeMovement(e); });
 
-        document.addEventListener('mouseup', this.handleNodeRelease);
+        document.addEventListener('mouseup', (e) => { this.handleNodeRelease(e); });
 
         this.currentSelectedNode = null;
+        this.dragOffset = { x: 0, y: 0 };
     }
 
     handleNodeSelection(e) {
@@ -28,19 +29,22 @@ class NodeManager {
             return;
         }
 
-        this.currentSelectedNode = getNode;
+        const node = this.getNodeFromNodeElement(getNode);
+
+        this.dragOffset.x = e.clientX - node.position.x;
+        this.dragOffset.y = e.clientY - node.position.y;
+
+        this.currentSelectedNode = node;
     }
 
     handleNodeMovement(e) {
         if (!this.currentSelectedNode) {
             return;
         }
-
         const moveEvent = new Event("nodeMove");
         document.dispatchEvent(moveEvent);
 
-        this.currentSelectedNode.style.left = e.clientX + "px";
-        this.currentSelectedNode.style.top = e.clientY + "px";
+        this.currentSelectedNode.setPosition(e.clientX - this.dragOffset.x, e.clientY - this.dragOffset.y);
     }
 
     handleNodeRelease(e) {
@@ -49,6 +53,15 @@ class NodeManager {
 
     registerNode(node) {
         this.nodes.push(node);
+    }
+
+    getNodeFromNodeElement(ele) {
+        for (let i = 0; i < this.nodes.length; i++) {
+            if (this.nodes[i].handle.isSameNode(ele)) {
+                return this.nodes[i];
+            }
+        }
+        return null;
     }
 }
 
