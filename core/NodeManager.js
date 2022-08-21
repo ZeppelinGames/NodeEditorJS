@@ -36,6 +36,9 @@ class NodeManager {
             return;
         }
 
+        const moveEvent = new Event("nodeMove");
+        document.dispatchEvent(moveEvent);
+
         this.currentSelectedNode.style.left = e.clientX + "px";
         this.currentSelectedNode.style.top = e.clientY + "px";
     }
