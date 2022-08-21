@@ -3,6 +3,8 @@
 ## Project Info   
 A node-based editor built with vanilla js.
 
+![node-hotswap](./git-imgs/hotswaps.gif)
+
 ## Basic setup  
 ### Creating new nodes
 1. Create a new script in the components folder.
