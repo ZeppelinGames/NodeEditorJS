@@ -1,4 +1,9 @@
 # NodeEditorJS
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
 
 ## Project Info   
 A node-based editor built with vanilla js.
@@ -49,3 +54,14 @@ const events = [
 - Remove/edit connections
 - Delete nodes
 - Iterative nodes
+
+[contributors-shield]: https://img.shields.io/github/contributors/ZeppelinGames/NodeEditorJS.svg?style=for-the-badge
+[contributors-url]: https://github.com/ZeppelinGames/NodeEditorJS/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/ZeppelinGames/NodeEditorJS.svg?style=for-the-badge
+[forks-url]: https://github.com/ZeppelinGames/NodeEditorJS/network/members
+[stars-shield]: https://img.shields.io/github/stars/ZeppelinGames/NodeEditorJS.svg?style=for-the-badge
+[stars-url]: https://github.com/ZeppelinGames/NodeEditorJS/stargazers
+[issues-shield]: https://img.shields.io/github/issues/ZeppelinGames/NodeEditorJS.svg?style=for-the-badge
+[issues-url]: https://github.com/ZeppelinGames/NodeEditorJS/issues
+[license-shield]: https://img.shields.io/github/license/ZeppelinGames/NodeEditorJS.svg?style=for-the-badge
+[license-url]: https://github.com/ZeppelinGames/NodeEditorJS/blob/master/LICENSE
