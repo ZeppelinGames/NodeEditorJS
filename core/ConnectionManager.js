@@ -44,8 +44,8 @@ class ConnectionManager {
         document.body.appendChild(this.canvas);
 
         window.addEventListener('resize', () => {
-            this.canvas.width = window.innerWidth;
-            this.canvas.height = window.innerHeight;
+            this.canvas.style.width = window.innerWidth;
+            this.canvas.style.height = window.innerHeight;
         });
         document.addEventListener('mousedown', this.handleSocketSelection);
 
