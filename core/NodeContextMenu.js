@@ -1,28 +1,26 @@
-import InputNode from "../components/InputNode.js";
-import OutputNode from "../components/OutputNode.js";
-import ConcatNode from "../components/ConcatNode.js";
-import AddNode from "../components/AddNode.js";
-
-class ContextMenuItem {
+class NodeContextMenuItem {
     constructor(displayName, event) {
         this.displayName = displayName;
         this.event = event;
     }
 }
 
-class ContextMenu {
+class NodeContextMenu {
     constructor(nodeManager) {
         this.nodeManager = nodeManager;
 
-        //Bind events
         const events = [
-            new ContextMenuItem("Input", (e) => { this.createNewNode(e, new InputNode()) }),
-            new ContextMenuItem("Output", (e) => { this.createNewNode(e, new OutputNode()) }),
-            new ContextMenuItem("Concatenate", (e) => { this.createNewNode(e, new ConcatNode()) }),
-            new ContextMenuItem("Add", (e) => { this.createNewNode(e, new AddNode()) })
+            new NodeContextMenuItem("Duplicate", (e) => {
+                console.log(e.clientX + ", " + e.clientY);
+                const ele = document.elementFromPoint(e.clientX, e.clientY);
+                nodeManager.duplicateNodeFromElement(ele, e.clientX, e.clientY);
+            }),
+            new NodeContextMenuItem("Delete", (e) => {
+                const ele = document.elementFromPoint(e.clientX, e.clientY);
+                nodeManager.deleteNodeFromElement(ele);
+            })
         ];
 
-        //Create DOM element
         const contextDOM = document.createElement("div");
         contextDOM.classList.add("contextMenu");
         contextDOM.style.zIndex = 1000;
@@ -31,8 +29,8 @@ class ContextMenu {
             const eventElementHandler = document.createElement("a");
             eventElementHandler.classList.add("contextMenuItem");
             eventElementHandler.onclick = (i) => {
-                e.event(i);
                 this.updateContextMenu();
+                e.event(i);
             };
 
             const eventText = document.createElement("div");
@@ -56,26 +54,23 @@ class ContextMenu {
         document.addEventListener('contextmenu', e => this.updateContextMenu(e));
     }
 
-    createNewNode(e, newNode) {
-        this.nodeManager.registerNode(newNode);
-        newNode.setPosition(e.clientX, e.clientY);
-    }
-
     updateContextMenu(e) {
         if (e) {
             e.preventDefault();
 
             const selectedElement = document.elementFromPoint(e.clientX, e.clientY);
-            if (selectedElement.tagName !== "CANVAS") {
+            const nodeEle = this.nodeManager.tryGetNodeElement(selectedElement);
+            if (nodeEle == null) {
                 return;
             }
 
             this.handle.style.top = e.clientY + "px";
             this.handle.style.left = e.clientX + "px";
         }
+
         this.handle.style.display = this.isVisible ? "flex" : "none";
         this.isVisible = !this.isVisible;
     }
 }
 
-export default ContextMenu;
+export default NodeContextMenu;

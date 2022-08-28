@@ -67,8 +67,8 @@ class Node {
         return newSocket;
     }
 
-    addTextField(key, socket, isMultiline = false) {
-        const textField = new TextField(key, socket, isMultiline);
+    addTextField(key, socket, readOnly = false) {
+        const textField = new TextField(key, socket, readOnly);
         this.nodeBody.appendChild(textField.handle);
 
         this.nodeData[key] = textField;

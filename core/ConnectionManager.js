@@ -59,6 +59,15 @@ class ConnectionManager {
         });
     }
 
+    getConnectionFromInputAndOutput(inp, out) {
+        for (let i = 0; i < this.connections.length; i++) {
+            if (this.connections[i].input.handle.isSameNode(inp.handle) && this.connections[i].output.handle.isSameNode(out.handle)) {
+                return this.connections[i];
+            }
+        }
+        return null;
+    }
+
     updateAndDrawConnections() {
         this.c2d.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.connections.forEach((c) => {
@@ -87,7 +96,8 @@ class ConnectionManager {
         if (seletedElement.classList.contains("socket")) {
             if (this.currentSelectedSocket) {
                 const connTo = this.getSocketFromElement(seletedElement);
-                if (this.currentSelectedSocket.isInput !== connTo.isInput && !this.currentSelectedSocket.node.handle.isSameNode(connTo.node.handle)) {
+
+                if (connTo != null && this.currentSelectedSocket.isInput !== connTo.isInput && !this.currentSelectedSocket.node.handle.isSameNode(connTo.node.handle)) {
                     const out = connTo.isInput ? this.currentSelectedSocket : connTo;
                     const inp = connTo.isInput ? connTo : this.currentSelectedSocket;
 
@@ -109,8 +119,8 @@ class ConnectionManager {
                         const conn = this.getConnectionFromInput(inp);
 
                         //Remove old connection
-                        conn.output.connections.pop(inp);
-                        inp.connections.pop(conn.output);
+                        conn.output.connections.splice(conn.output.connections.indexOf(inp), 1);
+                        inp.connections.splice(inp.connections.indexOf(conn.output), 1);
 
                         //Add new connection
                         inp.connections.push(out);

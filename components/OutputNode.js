@@ -4,7 +4,7 @@ class OutputNode extends Node {
     constructor() {
         super("Output");
         const skt = this.addInput("Input");
-        this.addTextField("Output", skt, false);
+        this.addTextField("Output", skt, true);
     }
 
     update() {

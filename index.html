@@ -10,12 +10,15 @@
     <script type="module">
         import NodeManager from "./core/NodeManager.js";
         import ContextMenu from "./core/ContextMenu.js";
+        import NodeContextMenu from "./core/NodeContextMenu.js"
+
         import Node from './core/Node.js';
         import InputNode from './components/InputNode.js';
         import OutputNode from "./components/OutputNode.js";
 
         const nodeManager = new NodeManager();
         const contextMenu = new ContextMenu(nodeManager);
+        const nodeContextMenu = new NodeContextMenu(nodeManager);
     </script>
 </body>
 

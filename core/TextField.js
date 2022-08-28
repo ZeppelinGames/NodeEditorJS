@@ -1,13 +1,14 @@
 class TextField {
-    constructor(key, socket = null, isMultiline = false) {
+    constructor(key, socket = null, readonly = false) {
         this.key = key;
         this.text = "";
 
         const textFieldContainer = document.createElement("div");
         textFieldContainer.classList.add("nodeTextField");
 
-        const inputField = document.createElement(isMultiline ? "textarea" : "input");
+        const inputField = document.createElement("input");
         inputField.accept = "text";
+        inputField.readOnly = readonly;
 
         textFieldContainer.append(inputField);
 
