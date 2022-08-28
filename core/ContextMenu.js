@@ -1,8 +1,3 @@
-import InputNode from "../components/InputNode.js";
-import OutputNode from "../components/OutputNode.js";
-import ConcatNode from "../components/ConcatNode.js";
-import AddNode from "../components/AddNode.js";
-
 class ContextMenuItem {
     constructor(displayName, event) {
         this.displayName = displayName;
@@ -11,16 +6,11 @@ class ContextMenuItem {
 }
 
 class ContextMenu {
-    constructor(nodeManager) {
+    constructor(nodeManager, contextEvents) {
         this.nodeManager = nodeManager;
 
         //Bind events
-        const events = [
-            new ContextMenuItem("Input", (e) => { this.createNewNode(e, new InputNode()) }),
-            new ContextMenuItem("Output", (e) => { this.createNewNode(e, new OutputNode()) }),
-            new ContextMenuItem("Concatenate", (e) => { this.createNewNode(e, new ConcatNode()) }),
-            new ContextMenuItem("Add", (e) => { this.createNewNode(e, new AddNode()) })
-        ];
+        const events = contextEvents;
 
         //Create DOM element
         const contextDOM = document.createElement("div");
@@ -31,8 +21,8 @@ class ContextMenu {
             const eventElementHandler = document.createElement("a");
             eventElementHandler.classList.add("contextMenuItem");
             eventElementHandler.onclick = (i) => {
+                this.setContextMenuVisibility(false);
                 e.event(i);
-                this.updateContextMenu();
             };
 
             const eventText = document.createElement("div");
@@ -44,7 +34,7 @@ class ContextMenu {
             contextDOM.appendChild(eventElementHandler);
         });
 
-        contextDOM.addEventListener('mouseleave', e => this.updateContextMenu());
+        contextDOM.addEventListener('mouseleave', e => this.setContextMenuVisibility(false));
 
         document.body.appendChild(contextDOM);
 
@@ -54,11 +44,6 @@ class ContextMenu {
         this.updateContextMenu();
 
         document.addEventListener('contextmenu', e => this.updateContextMenu(e));
-    }
-
-    createNewNode(e, newNode) {
-        this.nodeManager.registerNode(newNode);
-        newNode.setPosition(e.clientX, e.clientY);
     }
 
     updateContextMenu(e) {
@@ -73,9 +58,13 @@ class ContextMenu {
             this.handle.style.top = e.clientY + "px";
             this.handle.style.left = e.clientX + "px";
         }
+        this.setContextMenuVisibility(!this.isVisible);
+    }
+
+    setContextMenuVisibility(vis) {
+        this.isVisible = vis;
         this.handle.style.display = this.isVisible ? "flex" : "none";
-        this.isVisible = !this.isVisible;
     }
 }
 
-export default ContextMenu;
+export { ContextMenu, ContextMenuItem };

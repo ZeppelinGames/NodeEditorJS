@@ -53,6 +53,7 @@ const events = [
 - ~~Visible connections~~
 - Remove/edit connections
 - ~~Delete nodes~~
+- Duplicate nodes
 - Iterative nodes
 - ~~Context menus disappear on exit hover~~
 

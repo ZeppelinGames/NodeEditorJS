@@ -1,57 +1,19 @@
-class NodeContextMenuItem {
-    constructor(displayName, event) {
-        this.displayName = displayName;
-        this.event = event;
-    }
-}
+import { ContextMenu, ContextMenuItem } from "./ContextMenu.js";
 
-class NodeContextMenu {
+class NodeContextMenu extends ContextMenu {
     constructor(nodeManager) {
-        this.nodeManager = nodeManager;
-
-        const events = [
-            new NodeContextMenuItem("Duplicate", (e) => {
+        super(nodeManager, [
+            new ContextMenuItem("Duplicate", (e) => {
                 console.log(e.clientX + ", " + e.clientY);
                 const ele = document.elementFromPoint(e.clientX, e.clientY);
                 nodeManager.duplicateNodeFromElement(ele, e.clientX, e.clientY);
             }),
-            new NodeContextMenuItem("Delete", (e) => {
+            new ContextMenuItem("Delete", (e) => {
+                console.log("Deleting");
                 const ele = document.elementFromPoint(e.clientX, e.clientY);
                 nodeManager.deleteNodeFromElement(ele);
             })
-        ];
-
-        const contextDOM = document.createElement("div");
-        contextDOM.classList.add("contextMenu");
-        contextDOM.style.zIndex = 1000;
-
-        events.forEach(e => {
-            const eventElementHandler = document.createElement("a");
-            eventElementHandler.classList.add("contextMenuItem");
-            eventElementHandler.onclick = (i) => {
-                this.updateContextMenu();
-                e.event(i);
-            };
-
-            const eventText = document.createElement("div");
-            eventText.classList.add("contextMenuItemName");
-            eventText.innerHTML = e.displayName;
-
-            eventElementHandler.appendChild(eventText);
-
-            contextDOM.appendChild(eventElementHandler);
-        });
-
-        contextDOM.addEventListener('mouseleave', e => this.updateContextMenu());
-
-        document.body.appendChild(contextDOM);
-
-        this.handle = contextDOM;
-
-        this.isVisible = false;
-        this.updateContextMenu();
-
-        document.addEventListener('contextmenu', e => this.updateContextMenu(e));
+        ])
     }
 
     updateContextMenu(e) {
