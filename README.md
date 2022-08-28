@@ -52,8 +52,9 @@ const events = [
 ## Roadmap  
 - ~~Visible connections~~
 - Remove/edit connections
-- Delete nodes
+- ~~Delete nodes~~
 - Iterative nodes
+- ~~Context menus disappear on exit hover~~
 
 [contributors-shield]: https://img.shields.io/github/contributors/ZeppelinGames/NodeEditorJS.svg?style=for-the-badge
 [contributors-url]: https://github.com/ZeppelinGames/NodeEditorJS/graphs/contributors
