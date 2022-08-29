@@ -51,7 +51,7 @@ const events = [
 
 ## Roadmap  
 - ~~Visible connections~~
-- Remove/edit connections
+- ~~Remove/edit connections~~
 - ~~Delete nodes~~
 - Duplicate nodes
 - Iterative nodes
