@@ -93,7 +93,7 @@ class NodeManager {
                 const input = nodeInputs[i];
                 const output = nodeConnOutputs[j];
 
-                this.deleteConnection(input, output);
+                this.connectionManager.deleteConnectionsOnSockets(input, output);
             }
         }
 
@@ -105,7 +105,7 @@ class NodeManager {
                 const input = nodeConnInputs[j];
                 const output = nodeOutputs[i];
 
-                this.deleteConnection(input, output);
+                this.connectionManager.deleteConnectionsOnSockets(input, output);
             }
         }
 
@@ -115,25 +115,6 @@ class NodeManager {
         this.nodes.splice(this.nodes.indexOf(node), 1);
 
         console.log("Node removed");
-    }
-
-    deleteConnection(input, output) {
-        const conn = this.connectionManager.getConnectionFromInputAndOutput(input, output);
-        if (conn !== null) {
-            this.connectionManager.connections.splice(this.connectionManager.connections.indexOf(conn), 1);
-        } else {
-            console.log("Couldnt find connection");
-        }
-
-        input.connections.splice(input.connections.indexOf(output), 1);
-        output.connections.splice(output.connections.indexOf(input), 1);
-
-        //not updating linked connections properly. need to find out whats going on + fix
-        output.updateConnections();
-        input.updateConnections();
-
-        input.node.update();
-        output.node.update();
     }
 
     getNodeFromNodeElement(ele) {

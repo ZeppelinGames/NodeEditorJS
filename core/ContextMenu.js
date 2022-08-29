@@ -43,7 +43,7 @@ class ContextMenu {
         this.isVisible = false;
         this.updateContextMenu();
 
-        document.addEventListener('contextmenu', e => this.updateContextMenu(e));
+        document.addEventListener('contextmenu', e => { this.updateContextMenu(e) });
     }
 
     updateContextMenu(e) {
@@ -51,7 +51,12 @@ class ContextMenu {
             e.preventDefault();
 
             const selectedElement = document.elementFromPoint(e.clientX, e.clientY);
+            console.log(selectedElement);
             if (selectedElement.tagName !== "CANVAS") {
+                return;
+            }
+
+            if (this.nodeManager.connectionManager.connectionSelected(e.clientX, e.clientY)) {
                 return;
             }
 

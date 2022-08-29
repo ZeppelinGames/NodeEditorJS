@@ -1,9 +1,13 @@
+import ConnectionContextMenu from "./ConnectionContextMenu.js";
+
 class ConnectionData {
     constructor(input, output) {
         this.input = input;
         this.output = output;
         this.path = new Path2D();
         this.updatePath();
+
+        this.selected = false;
     }
 
     updatePath() {
@@ -28,6 +32,8 @@ class ConnectionData {
 
 class ConnectionManager {
     constructor(nodeManager) {
+        this.connectionContextMenu = new ConnectionContextMenu(nodeManager, this);
+
         this.nodeManager = nodeManager;
         this.connections = [];
         this.currentSelectedSocket = null;
@@ -68,9 +74,56 @@ class ConnectionManager {
         return null;
     }
 
+    deleteConnectionsOnSockets(input, output) {
+        const conn = this.getConnectionFromInputAndOutput(input, output);
+
+        this.connections.splice(this.connections.indexOf(conn), 1);
+
+        input.connections.splice(input.connections.indexOf(output), 1);
+        output.connections.splice(output.connections.indexOf(input), 1);
+
+        //not updating linked connections properly. need to find out whats going on + fix
+        output.updateConnections();
+        input.updateConnections();
+
+        input.node.update();
+        output.node.update();
+
+        this.updateAndDrawConnections();
+    }
+
+    deleteConnection(conn) {
+        if (conn == null) {
+            return;
+        }
+        this.connections.splice(this.connections.indexOf(conn), 1);
+
+        conn.input.connections.splice(conn.input.connections.indexOf(conn.output), 1);
+        conn.output.connections.splice(conn.output.connections.indexOf(conn.input), 1);
+
+        //not updating linked connections properly. need to find out whats going on + fix
+        conn.output.updateConnections();
+        conn.input.updateConnections();
+
+        conn.input.node.update();
+        conn.output.node.update();
+
+        this.updateAndDrawConnections();
+    }
+
+    connectionSelected(x, y) {
+        for (let i = 0; i < this.connections.length; i++) {
+            if (this.c2d.isPointInStroke(this.connections[i].path, x, y)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     updateAndDrawConnections() {
         this.c2d.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.connections.forEach((c) => {
+            this.c2d.strokeStyle = c.selected ? 'orange' : 'white';
             c.updatePath();
             c.drawPath(this.c2d);
         });
@@ -90,6 +143,18 @@ class ConnectionManager {
     }
 
     handleSocketSelection = (e) => {
+        // let updated = false;
+        // this.connections.forEach((c) => {
+        //     const isSelected = this.c2d.isPointInPath(c.path, e.clientX, e.clientY);
+        //     if (c.selected != isSelected) {
+        //         c.selected = isSelected;
+        //         updated = true;
+        //     }
+        // });
+        // if (updated) {
+        //     this.updateAndDrawConnections();
+        // }
+
         const seletedElement = document.elementFromPoint(e.clientX, e.clientY);
 
         //Connect sockets
