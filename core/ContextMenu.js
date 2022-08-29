@@ -51,7 +51,13 @@ class ContextMenu {
             e.preventDefault();
 
             const selectedElement = document.elementFromPoint(e.clientX, e.clientY);
+            console.log(selectedElement);
             if (selectedElement.tagName !== "CANVAS") {
+                return;
+            }
+
+            //little bit hacky but checks if connection was clicked or blank canvas
+            if (selectedElement.getContext('2d').getImageData(e.clientX, e.clientY, 1, 1).data[3] > 0) {
                 return;
             }
 
