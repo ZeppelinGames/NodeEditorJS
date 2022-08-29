@@ -23,7 +23,7 @@ class ConnectionContextMenu extends ContextMenu {
 
             let updated = false;
             this.connectionManager.connections.forEach((c) => {
-                const isSelected = this.connectionManager.c2d.isPointInPath(c.path, e.clientX, e.clientY);
+                const isSelected = this.connectionManager.c2d.isPointInStroke(c.path, e.clientX, e.clientY);
                 if (c.selected != isSelected) {
 
                     if (isSelected) {

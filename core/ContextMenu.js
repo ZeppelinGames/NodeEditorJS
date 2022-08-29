@@ -43,7 +43,7 @@ class ContextMenu {
         this.isVisible = false;
         this.updateContextMenu();
 
-        document.addEventListener('contextmenu', e => this.updateContextMenu(e));
+        document.addEventListener('contextmenu', e => { this.updateContextMenu(e) });
     }
 
     updateContextMenu(e) {
@@ -56,8 +56,7 @@ class ContextMenu {
                 return;
             }
 
-            //little bit hacky but checks if connection was clicked or blank canvas
-            if (selectedElement.getContext('2d').getImageData(e.clientX, e.clientY, 1, 1).data[3] > 0) {
+            if (this.nodeManager.connectionManager.connectionSelected(e.clientX, e.clientY)) {
                 return;
             }
 

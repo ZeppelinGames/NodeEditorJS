@@ -96,8 +96,6 @@ class ConnectionManager {
         if (conn == null) {
             return;
         }
-        console.log(this.connections);
-
         this.connections.splice(this.connections.indexOf(conn), 1);
 
         conn.input.connections.splice(conn.input.connections.indexOf(conn.output), 1);
@@ -111,6 +109,15 @@ class ConnectionManager {
         conn.output.node.update();
 
         this.updateAndDrawConnections();
+    }
+
+    connectionSelected(x, y) {
+        for (let i = 0; i < this.connections.length; i++) {
+            if (this.c2d.isPointInStroke(this.connections[i].path, x, y)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     updateAndDrawConnections() {
