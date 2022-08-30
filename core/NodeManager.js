@@ -13,6 +13,8 @@ class NodeManager {
 
         this.currentSelectedNode = null;
         this.dragOffset = { x: 0, y: 0 };
+
+        this.draggingGlobal = false;
         this.globalOffset = { x: 0, y: 0 };
     }
 
@@ -20,7 +22,15 @@ class NodeManager {
         const ele = document.elementFromPoint(e.clientX, e.clientY);
 
         const selectedElement = this.tryGetNodeElement(ele);
-        if (selectedElement == null) { return; }
+        if (selectedElement == null) {
+            console.log("nothing selected");
+            if (!this.connectionManager.connectionSelected(e.clientX, e.clientY)) {
+                this.draggingGlobal = true;
+                this.globalOffset.x = e.clientX;
+                this.globalOffset.y = e.clientY;
+            }
+            return;
+        }
 
         const node = this.getNodeFromNodeElement(selectedElement);
         if (node == null) { return; }
@@ -33,6 +43,18 @@ class NodeManager {
 
     handleNodeMovement(e) {
         if (!this.currentSelectedNode) {
+            if (this.draggingGlobal) {
+                this.nodes.forEach(n => {
+                    n.setPosition(
+                        n.position.x - (this.globalOffset.x - e.clientX),
+                        n.position.y - (this.globalOffset.y - e.clientY));
+                });
+
+                this.globalOffset.x = e.clientX;
+                this.globalOffset.y = e.clientY;
+
+                this.connectionManager.updateAndDrawConnections();
+            }
             return;
         }
         const moveEvent = new Event("nodeMove");
@@ -42,6 +64,7 @@ class NodeManager {
     }
 
     handleNodeRelease(e) {
+        this.draggingGlobal = false;
         this.currentSelectedNode = null;
     }
 
