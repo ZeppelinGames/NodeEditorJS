@@ -38,6 +38,8 @@ class ConnectionManager {
         this.connections = [];
         this.currentSelectedSocket = null;
 
+        this.currConnectionPath = null;
+
         //Create canvas to draw connections onto
         this.canvas = document.createElement("canvas");
         this.canvas.width = window.innerWidth;
@@ -59,6 +61,7 @@ class ConnectionManager {
             this.updateAndDrawConnections();
         });
         document.addEventListener('mousedown', this.handleSocketSelection);
+        document.addEventListener('mousemove', this.handleSocketConnectionMovement);
 
         document.addEventListener("nodeMove", () => {
             this.updateAndDrawConnections();
@@ -155,12 +158,24 @@ class ConnectionManager {
         //     this.updateAndDrawConnections();
         // }
 
-        const seletedElement = document.elementFromPoint(e.clientX, e.clientY);
+        const selectedElement = document.elementFromPoint(e.clientX, e.clientY);
 
         //Connect sockets
-        if (seletedElement.classList.contains("socket")) {
+        if (selectedElement.classList.contains("socket")) {
+            this.currConnectionPath = new Path2D();
+
+            const ip = selectedElement.getBoundingClientRect();
+
+            const inPos = { x: (ip.x + (ip.width / 2)), y: (ip.y + (ip.height / 2)) };
+            const outPos = { x: e.clientX, y: e.clientY };
+
+            const xDist = inPos.x - outPos.x;
+
+            this.currConnectionPath.moveTo(outPos.x, outPos.y);
+            this.currConnectionPath.bezierCurveTo(outPos.x + (xDist / 2), outPos.y, inPos.x - (xDist / 2), inPos.y, inPos.x, inPos.y);
+
             if (this.currentSelectedSocket) {
-                const connTo = this.getSocketFromElement(seletedElement);
+                const connTo = this.getSocketFromElement(selectedElement);
 
                 if (connTo != null && this.currentSelectedSocket.isInput !== connTo.isInput && !this.currentSelectedSocket.node.handle.isSameNode(connTo.node.handle)) {
                     const out = connTo.isInput ? this.currentSelectedSocket : connTo;
@@ -179,6 +194,7 @@ class ConnectionManager {
                         newPath.drawPath(this.c2d);
                         this.connections.push(newPath);
 
+                        this.currConnectionPath = null;
                     } else {
                         //Input already connected to something else
                         const conn = this.getConnectionFromInput(inp);
@@ -203,13 +219,34 @@ class ConnectionManager {
 
                 this.currentSelectedSocket = null;
             } else {
-                this.currentSelectedSocket = this.getSocketFromElement(seletedElement);
+                this.currentSelectedSocket = this.getSocketFromElement(selectedElement);
             }
         } else {
             this.currentSelectedSocket = null;
-
+            this.updateAndDrawConnections();
             //See if connection was selected
         }
+    }
+
+    handleSocketConnectionMovement = (e) => {
+        if (this.currentSelectedSocket == null) {
+            return;
+        }
+
+        this.currConnectionPath = new Path2D();
+
+        const ip = this.currentSelectedSocket.socketHandle.getBoundingClientRect();
+
+        const inPos = { x: (ip.x + (ip.width / 2)), y: (ip.y + (ip.height / 2)) };
+        const outPos = { x: e.clientX, y: e.clientY };
+
+        const xDist = inPos.x - outPos.x;
+
+        this.currConnectionPath.moveTo(outPos.x, outPos.y);
+        this.currConnectionPath.bezierCurveTo(outPos.x + (xDist / 2), outPos.y, inPos.x - (xDist / 2), inPos.y, inPos.x, inPos.y);
+
+        this.updateAndDrawConnections();
+        this.c2d.stroke(this.currConnectionPath);
     }
 
     getConnectionFromInput(inp) {
