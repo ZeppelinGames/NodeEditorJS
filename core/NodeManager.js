@@ -1,5 +1,10 @@
 import ConnectionManager from "./ConnectionManager.js";
 
+import InputNode from "../components/InputNode.js";
+import OutputNode from "../components/OutputNode.js";
+import ConcatNode from "../components/ConcatNode.js";
+import AddNode from "../components/AddNode.js";
+
 class NodeManager {
     constructor() {
         this.nodes = [];
@@ -14,6 +19,57 @@ class NodeManager {
         this.currentSelectedNode = null;
         this.dragOffset = { x: 0, y: 0 };
         this.globalOffset = { x: 0, y: 0 };
+
+        this.nodeLinks = new Map();
+        this.nodeLinks["input"] = new InputNode();
+        this.nodeLinks["output"] = new OutputNode();
+        this.nodeLinks["concatenate"] = new ConcatNode();
+        this.nodeLinks["add"] = new AddNode();
+    }
+
+    loadSaveFile(filepath) {
+        fetch(filepath).then(e => e.text()).then((e) => {
+            const parsedJSON = JSON.parse(e);
+
+            const createdNodes = [];
+            for (let i = 0; i < parsedJSON.nodes.length; i++) {
+                const newNode = this.createNode(parsedJSON.nodes[i].nodeType, parsedJSON.nodes[i].positionX, parsedJSON.nodes[i].positionY);
+                console.log(newNode);
+                createdNodes.push(newNode);
+            }
+
+            console.log(createdNodes.length);
+
+            for (let i = 0; i < createdNodes.length; i++) {
+                for (let j = 0; j < parsedJSON.nodes[i].inputs.length; j++) {
+                    const connNode = createdNodes[parsedJSON.nodes[i].inputs[j]];
+
+                    //Need to swap out using string IDs on connections for inputs and outputs
+                    this.connectionManager.createConnection(createdNodes[i].inputs["Input"], connNode.outputs["Output"]);
+                }
+
+                for (let j = 0; j < parsedJSON.nodes[i].outputs.length; j++) {
+                    const connNode = createdNodes[parsedJSON.nodes[i].outputs[j]];
+
+                    //Need to swap out using string IDs on connections for inputs and outputs
+                    this.connectionManager.createConnection(createdNodes[i].outputs["Output"], connNode.inputs["Input"]);
+                }
+            }
+
+            this.connectionManager.updateAndDrawConnections();
+        });
+    }
+
+    saveToFile() {
+
+    }
+
+    createNode(id, x, y) {
+        const newNode = this.nodeLinks[id];
+        this.registerNode(newNode);
+        newNode.setPosition(x, y);
+
+        return newNode;
     }
 
     handleNodeSelection(e) {

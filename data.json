@@ -1,0 +1,24 @@
+{
+    "nodes": [
+        {
+            "nodeType": "input",
+            "positionX": 0,
+            "positionY": 0,
+            "inputs": [],
+            "outputs": [
+                [
+                    1
+                ]
+            ]
+        },
+        {
+            "nodeType": "output",
+            "positionX": 400,
+            "positionY": 0,
+            "inputs": [
+                0
+            ],
+            "outputs": []
+        }
+    ]
+}

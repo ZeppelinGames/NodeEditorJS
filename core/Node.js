@@ -62,8 +62,6 @@ class Node {
         this.nodeBody.appendChild(newSocket.handle);
         this.outputs[key] = newSocket;
 
-        console.log(this.outputs);
-
         return newSocket;
     }
 

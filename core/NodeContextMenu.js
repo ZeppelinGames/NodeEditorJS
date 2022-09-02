@@ -4,12 +4,10 @@ class NodeContextMenu extends ContextMenu {
     constructor(nodeManager) {
         super(nodeManager, [
             new ContextMenuItem("Duplicate", (e) => {
-                console.log(e.clientX + ", " + e.clientY);
                 const ele = document.elementFromPoint(e.clientX, e.clientY);
                 nodeManager.duplicateNodeFromElement(ele, e.clientX, e.clientY);
             }),
             new ContextMenuItem("Delete", (e) => {
-                console.log("Deleting");
                 const ele = document.elementFromPoint(e.clientX, e.clientY);
                 nodeManager.deleteNodeFromElement(ele);
             })
