@@ -41,7 +41,8 @@ class ContextMenu {
         this.handle = contextDOM;
 
         this.isVisible = false;
-        this.updateContextMenu();
+        // this.updateContextMenu();
+        this.setContextMenuVisibility(this.isVisible);
 
         document.addEventListener('contextmenu', e => { this.updateContextMenu(e) });
     }
@@ -51,17 +52,15 @@ class ContextMenu {
             e.preventDefault();
 
             const selectedElement = document.elementFromPoint(e.clientX, e.clientY);
-            console.log(selectedElement);
-            if (selectedElement.tagName !== "CANVAS") {
-                return;
-            }
-
-            if (this.nodeManager.connectionManager.connectionSelected(e.clientX, e.clientY)) {
-                return;
-            }
 
             this.handle.style.top = e.clientY + "px";
             this.handle.style.left = e.clientX + "px";
+
+            if (selectedElement.tagName !== "CANVAS" ||
+                this.nodeManager.connectionManager.connectionSelected(e.clientX, e.clientY)) {
+                this.setContextMenuVisibility(false);
+                return;
+            }
         }
         this.setContextMenuVisibility(!this.isVisible);
     }

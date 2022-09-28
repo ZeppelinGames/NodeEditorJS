@@ -117,10 +117,10 @@ class ConnectionManager {
     connectionSelected(x, y) {
         for (let i = 0; i < this.connections.length; i++) {
             if (this.c2d.isPointInStroke(this.connections[i].path, x, y)) {
-                return true;
+                return this.connections[i];
             }
         }
-        return false;
+        return null;
     }
 
     updateAndDrawConnections() {
@@ -162,6 +162,7 @@ class ConnectionManager {
 
         //Connect sockets
         if (selectedElement.classList.contains("socket")) {
+            this.c2d.strokeStyle = 'white';
             this.currConnectionPath = new Path2D();
 
             const ip = selectedElement.getBoundingClientRect();

@@ -14,6 +14,7 @@ class ConnectionContextMenu extends ContextMenu {
         if (this.selectedConnection == null) {
             return;
         }
+        this.selectedConnection.selected = false;
         this.connectionManager.deleteConnection(this.selectedConnection);
     }
 
@@ -22,34 +23,34 @@ class ConnectionContextMenu extends ContextMenu {
             e.preventDefault();
 
             let updated = false;
-            this.connectionManager.connections.forEach((c) => {
-                const isSelected = this.connectionManager.c2d.isPointInStroke(c.path, e.clientX, e.clientY);
-                if (c.selected != isSelected) {
-
-                    if (isSelected) {
-                        if (this.selectedConnection != null) {
-                            this.selectedConnection.selected = false;
-                        }
-                        this.selectedConnection = c;
+            const selected = this.connectionManager.connectionSelected(e.clientX, e.clientY);
+            console.log(selected);
+            if (selected != null) {
+                if (selected != this.selectedConnection) {
+                    if (this.selectedConnection) {
+                        this.selectedConnection.selected = false;
                     }
 
-                    c.selected = isSelected;
+                    selected.selected = true;
+                    this.selectedConnection = selected;
                     updated = true;
                 }
-            });
-            if (!updated) {
-                return;
             }
-
-            this.connectionManager.updateAndDrawConnections();
-
 
             this.handle.style.top = e.clientY + "px";
             this.handle.style.left = e.clientX + "px";
-        }
 
-        this.handle.style.display = this.isVisible ? "flex" : "none";
-        this.isVisible = !this.isVisible;
+            this.setVisibility(selected != null);
+
+            if (updated) {
+                this.connectionManager.updateAndDrawConnections();
+            }
+        }
+    }
+
+    setVisibility(visible) {
+        this.handle.style.display = visible ? "flex" : "none";
+        this.isVisible = visible;
     }
 }
 
